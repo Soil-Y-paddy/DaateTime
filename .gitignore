@@ -6,9 +6,10 @@ __pycache__
 .vs
 bin
 obj
+Debug
+Release
 .user
 sln/packages/*
-__pycache__
 .user
 */sln/packages/*
 *.pyc
