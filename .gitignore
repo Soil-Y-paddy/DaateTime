@@ -1,0 +1,14 @@
+*.bak
+DefaultBuild
+*.mtud
+temp.db
+__pycache__
+.vs
+bin
+obj
+.user
+sln/packages/*
+__pycache__
+.user
+*/sln/packages/*
+*.pyc
