@@ -3,9 +3,9 @@
 #define UNIX_EPOCH (62135683200)
 #define EPOCH_DAY UNIX_EPOCH
 
-//‰[”N‚ğl—¶‚µ‚½”N‚ÌŒo‰ß“ú
+//é–å¹´ã‚’è€ƒæ…®ã—ãŸå¹´ã®çµŒéæ—¥
 #define YEAR_DATE( p_byYear ) (  365 * ( p_byYear ) + (int)( ( p_byYear ) / 4 ) - (int)( ( p_byYear ) / 100 ) + (int)( ( p_byYear ) / 400 ) )
-//3Œ‚P“ú‚©‚ç‚ÌŒ‚ÌŒo‰ß“ú
+//3æœˆï¼‘æ—¥ã‹ã‚‰ã®æœˆã®çµŒéæ—¥
 #define  MonthDate( month ) ((int)( 306 * ( ( month ) + 1 ) / 10 ) )
 
 #define DAY_HOUR (24)
@@ -17,10 +17,10 @@
 #define BYTE2BCD( data ) ( ( ( (data) / 10 ) << 4 ) | ( ( data ) % 10 ) )
 
 
-// “ú\‘¢‘Ì‚©‚çA0/1/1‚©‚ç‚ÌŒo‰ß•b‚ğ‹‚ß‚é
+// æ—¥æ™‚æ§‹é€ ä½“ã‹ã‚‰ã€0/1/1ã‹ã‚‰ã®çµŒéç§’ã‚’æ±‚ã‚ã‚‹
 uint64_t DateTime::CalcDate( DateTimeSt p_stDateSt)
 {
-	// 1, 2Œ‚Í‘O”N‚Ì13, 14Œ
+	// 1, 2æœˆã¯å‰å¹´ã®13, 14æœˆ
 	if( p_stDateSt.Month < 3 )
 	{
 		p_stDateSt.Month+=12;
@@ -49,14 +49,14 @@ DateTime::DateTime( const DateTime &p_Src )
 	Date = p_Src.Date;
 }
 
-// “ú\‘¢‘Ì‚©‚çADateTimeƒNƒ‰ƒX‚ğ¶¬‚·‚é
+// æ—¥æ™‚æ§‹é€ ä½“ã‹ã‚‰ã€DateTimeã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 DateTime::DateTime( DateTimeSt p_stDate )
 {
 	FromStructure( p_stDate );
 }
 
 
-// GPSŠÔ‚©‚çADateTimeƒNƒ‰ƒX‚ğ¶¬‚·‚é
+// GPSæ™‚é–“ã‹ã‚‰ã€DateTimeã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 // gpsDate : DDMMYY(dec)
 // gpsTime : HHMMSSCC(dec)
 DateTime::DateTime( uint32_t gpsDate, uint32_t gpsTime )
@@ -74,14 +74,14 @@ DateTime::DateTime( uint32_t gpsDate, uint32_t gpsTime )
 }
 
 
-// UnixŠÔ‚©‚çDateTimeƒNƒ‰ƒX‚ğ¶¬‚·‚é
+// Unixæ™‚é–“ã‹ã‚‰DateTimeã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 DateTime::DateTime( uint32_t unixTime )
 {
 	Date = unixTime + UNIX_EPOCH ;
 }
 
-// RTCƒŒƒWƒXƒ^‚©‚çDateTimeƒNƒ‰ƒX‚ğ¶¬‚·‚é
-// ƒTƒ|[ƒgƒ`ƒbƒvFDS3231, RTC-4543SA 
+// RTCãƒ¬ã‚¸ã‚¹ã‚¿ã‹ã‚‰DateTimeã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
+// ã‚µãƒãƒ¼ãƒˆãƒãƒƒãƒ—ï¼šDS3231, RTC-4543SA 
 DateTime::DateTime( uint8_t * pRtcDate )
 {	
 	DateTimeSt stTemp;
@@ -102,7 +102,7 @@ char * DateTime::ToString( char * buf )
 	return buf;
 }
 
-// ’n•ûŠÔ‚ğ•Ô‚·
+// åœ°æ–¹æ™‚é–“ã‚’è¿”ã™
 DateTime DateTime::ToLocalTime( int8_t p_nLocalHour = LOCAL_TIME_HOUR )
 {
 	DateTime RetVal = DateTime( *this );
@@ -110,30 +110,30 @@ DateTime DateTime::ToLocalTime( int8_t p_nLocalHour = LOCAL_TIME_HOUR )
 	return RetVal;
 }
 
-// “ú\‘¢‘Ì‚É•ÏŠ·‚·‚é
+// æ—¥æ™‚æ§‹é€ ä½“ã«å¤‰æ›ã™ã‚‹
 DateTimeSt DateTime::ToStructur( )
 {
 	DateTimeSt stRetVal;
-	uint32_t dwDate = ElapseDate() + 428; // 3Œ‹N“_‚É‚·‚é‚½‚ß‚É‚¸‚ç‚·
+	uint32_t dwDate = ElapseDate() + 428; // 3æœˆèµ·ç‚¹ã«ã™ã‚‹ãŸã‚ã«ãšã‚‰ã™
 	uint32_t dwDayTemp;
-	stRetVal.Year = dwDate * 400 / 146097; // ‰¼”N(‰[”N‚ğl—¶)
+	stRetVal.Year = dwDate * 400 / 146097; // ä»®å¹´(é–å¹´ã‚’è€ƒæ…®)
 
-	// 1/1‚©‚ç‚ÌŒo‰ß“ú‚ÌŒvZ
-	while( 1 )//  11Œ`2Œ‚Ì‚İ‚Q‰ñƒ‹[ƒv
+	// 1/1ã‹ã‚‰ã®çµŒéæ—¥ã®è¨ˆç®—
+	while( 1 )//  11æœˆï½2æœˆã®ã¿ï¼’å›ãƒ«ãƒ¼ãƒ—
 	{
-		dwDayTemp = ( dwDate - YEAR_DATE( stRetVal.Year ) ); // 1/1‚©‚ç‚Ì‰¼Œo‰ß“ú
+		dwDayTemp = ( dwDate - YEAR_DATE( stRetVal.Year ) ); // 1/1ã‹ã‚‰ã®ä»®çµŒéæ—¥
 		if( dwDayTemp > 122 )
 		{
 			break;
 		}
 		stRetVal.Year--;
 	}
-	stRetVal.Month = ( dwDayTemp * 10 / 306 ) - 1; // ‰¼Œ
+	stRetVal.Month = ( dwDayTemp * 10 / 306 ) - 1; // ä»®æœˆ
 
-	// “ú,Œ‚ÌŒvZ
-	while( 1 ) // 1,3,8Œ‚Ì31“ú‚Ì‚İ‚Q‰ñƒ‹[ƒv
+	// æ—¥,æœˆã®è¨ˆç®—
+	while( 1 ) // 1,3,8æœˆã®31æ—¥ã®ã¿ï¼’å›ãƒ«ãƒ¼ãƒ—
 	{
-		stRetVal.Day = dwDayTemp - MonthDate( stRetVal.Month ); // ‰¼“ú
+		stRetVal.Day = dwDayTemp - MonthDate( stRetVal.Month ); // ä»®æ—¥
 		if( stRetVal.Day > 0 )
 		{
 			break;
@@ -145,7 +145,7 @@ DateTimeSt DateTime::ToStructur( )
 		stRetVal.Year++;
 		stRetVal.Month -= 12;
 	}
-	// A•ªA•b‚ÌŒvZ
+	// æ™‚ã€åˆ†ã€ç§’ã®è¨ˆç®—
 	stRetVal.Hour = Hour( );// ( Date / SEC_HOUR ) % DAY_HOUR;
 	stRetVal.Min = Min( );// ( Date / HOUR_MIN ) % MIN_SEC;
 	stRetVal.Sec = Sec( );// Date % MIN_SEC;
@@ -153,13 +153,13 @@ DateTimeSt DateTime::ToStructur( )
 	return stRetVal;
 }
 
-// UnixTime‚É•ÏŠ·‚·‚é
+// UnixTimeã«å¤‰æ›ã™ã‚‹
 uint32_t DateTime::ToUnixTime( )
 {
 	return (uint32_t)( Date - UNIX_EPOCH );
 }
 
-// RTCƒŒƒWƒXƒ^’l‚É•ÏŠ·‚·‚é
+// RTCãƒ¬ã‚¸ã‚¹ã‚¿å€¤ã«å¤‰æ›ã™ã‚‹
 uint8_t * DateTime::ToRtcData( uint8_t *pRtcDate )
 {
 	DateTimeSt stData=ToStructur();
@@ -175,54 +175,54 @@ uint8_t * DateTime::ToRtcData( uint8_t *pRtcDate )
 	return pRtcDate;
 }
 
-// 0000”N1Œ1“ú‚©‚ç‚ÌŒo‰ß“ú‚ğ•Ô‚·
+// 0000å¹´1æœˆ1æ—¥ã‹ã‚‰ã®çµŒéæ—¥ã‚’è¿”ã™
 // MAX : 
 uint32_t DateTime::ElapseDate( )
 {
 	return (uint32_t)( Date / DAY_MAX );
 }
 
-// —j“ú(0:“ú—j“ú`6:“y—j“ú)‚ğ•Ô‚·
+// æ›œæ—¥(0:æ—¥æ›œæ—¥ï½6:åœŸæ›œæ—¥)ã‚’è¿”ã™
 uint8_t DateTime::WeekDay( )
 {
 
 	return ElapseDate() % 7;
 }
 
-// ¼—ï‚ğ•Ô‚·
+// è¥¿æš¦ã‚’è¿”ã™
 uint16_t DateTime::Year( )
 {
 	DateTimeSt stDate = ToStructur( );
 	return stDate.Year;
 }
 
-// Œ‚ğ•Ô‚·
+// æœˆã‚’è¿”ã™
 uint8_t DateTime::Month( )
 {
 	DateTimeSt stDate = ToStructur( );
 	return stDate.Month;
 }
 
-// “ú‚ğ•Ô‚·
+// æ—¥ã‚’è¿”ã™
 uint8_t DateTime::Day( )
 {
 	DateTimeSt stDate = ToStructur( );
 	return stDate.Day;
 }
 
-// ‚ğ•Ô‚·
+// æ™‚ã‚’è¿”ã™
 uint8_t DateTime::Hour( )
 {
 	return ( Date / SEC_HOUR ) % DAY_HOUR;
 }
 
-// •ª‚ğ•Ô‚·
+// åˆ†ã‚’è¿”ã™
 uint8_t DateTime::Min( )
 {
 	return ( Date / HOUR_MIN ) % MIN_SEC;
 }
 
-// •b‚ğ•Ô‚·
+// ç§’ã‚’è¿”ã™
 uint8_t DateTime::Sec( )
 {
 	return Date % MIN_SEC;
